@@ -1,10 +1,10 @@
-import { PrismaAdapter } from "@next-auth/prisma-adapter";
-import prisma from "@/app/libs/prismadb";
-import NextAuth, { AuthOptions } from "next-auth";
-import bcrypt from "bcrypt";
-import GithubProvider from "next-auth/providers/github";
-import GoogleProvider from "next-auth/providers/google";
-import CredentialsProvider from "next-auth/providers/credentials";
+import NextAuth, { AuthOptions } from "next-auth"
+import { PrismaAdapter } from "@next-auth/prisma-adapter"
+import GithubProvider from "next-auth/providers/github"
+import GoogleProvider from "next-auth/providers/google"
+import CredentialsProvider from "next-auth/providers/credentials"
+import bcrypt from "bcrypt"
+import prisma from "@/app/libs/prismadb"
 
 export const authOptions: AuthOptions = {
   adapter: PrismaAdapter(prisma),
@@ -20,47 +20,46 @@ export const authOptions: AuthOptions = {
     CredentialsProvider({
       name: "credentials",
       credentials: {
-        email: { label: "email", type: "text" },
+        email: { label: "email", type: "string" },
         password: { label: "password", type: "password" },
       },
       async authorize(credentials) {
+
         if (!credentials?.email || !credentials?.password) {
-          throw new Error("Invalid credentials");
+          throw new Error("Invalid credentials")
         }
 
-        try {
-          const user = await prisma.user.findUnique({
-            where: {
-              email: credentials.email,
-            },
-          });
-          if (!user || !user.hashedPassword) {
-            throw new Error("Invalid credentials");
-          }
-          const passwordMatch = await bcrypt.compare(
-            credentials.password,
-            user.hashedPassword
-          );
-          if (!passwordMatch) {
-            throw new Error("Invalid credentials");
-          }
+        const user = await prisma.user.findUnique({
+          where: {
+            email: credentials.email,
+          },
+        })
 
-          return user;
-        } catch (error) {
-          console.error("Unhandled exception in auth.authorize()", error);
-          throw error;
+        if (!user || !user?.hashedPassword) {
+          throw new Error("Invalid credentials")
         }
+
+        const isCorrectPass = await bcrypt.compare(
+          credentials.password,
+          user.hashedPassword
+        )
+
+        if (!isCorrectPass) {
+            throw new Error("Invalid credentials")
+        }
+
+        return user
       },
     }),
   ],
   pages: {
-    signIn: "/",
+    signIn: '/'
   },
-  debug: process.env.NODE_ENV === "development",
+  debug: process.env.NODE_ENV === 'development',
   session: {
-    strategy: "jwt",
+    strategy: 'jwt'
   },
-  secret: process.env.NEXTAUTH_SECRET,
-};
+  secret: process.env.NEXTAUTH_SECRET
+}
 
-export default NextAuth(authOptions);
+export default NextAuth(authOptions)
