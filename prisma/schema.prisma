@@ -1,9 +1,6 @@
 // This is your Prisma schema file,
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -13,9 +10,46 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User{
-  id Int @id @default(autoincrement())
-  email String
-  password String
-  name String?
+model User {
+  id          String      @id @default(uuid())
+  email       String      @unique
+  password    String
+  name        String?
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+
+  hostedListings Listing[] @relation("host")
+  bookings       Booking[] @relation("booker")
+}
+
+model Listing {
+  id           String      @id @default(uuid())
+  title        String
+  description  String
+  price        Float
+  capacity     Int
+  location     String
+  amenities    String[]
+  image        String
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
+
+  host      User      @relation("host", fields: [hostId], references: [id])
+  hostId    String    // Updated to String type to match User id
+  bookings  Booking[]
+}
+
+model Booking {
+  id            String    @id @default(uuid())
+  startDate     DateTime
+  endDate       DateTime
+  totalAmount   Float
+  status        String
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  booker     User      @relation("booker", fields: [bookerId], references: [id])
+  bookerId   String    // Updated to String type to match User id
+  listing    Listing   @relation(fields: [listingId], references: [id])
+  listingId  String    // Updated to String type to match Listing id
 }
