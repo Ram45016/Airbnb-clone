@@ -8,6 +8,7 @@ interface InputProps{
     disabled?: boolean;
     formatPrice?: boolean;
     required?: boolean;
+    isValid?:boolean;
     register: UseFormRegister<FieldValues>,
     errors: FieldErrors
 }
@@ -19,6 +20,7 @@ const Input: React.FC<InputProps> = ({
     formatPrice,
     register,
     required,
+    isValid,
     errors
 }) => {
     return ( 
@@ -55,6 +57,7 @@ const Input: React.FC<InputProps> = ({
                     disabled:cursor-not-allowed
                     ${formatPrice?'pl-9':'pl-4'}
                     ${errors[id]?'border-rose-500':' border-neutral-300'}
+                    ${isValid? 'border-green-500' : (errors[id] ? 'border-rose-500' : 'border-neutral-300')}  
                     `}
                     />
             <label

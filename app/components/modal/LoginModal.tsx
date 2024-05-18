@@ -13,7 +13,10 @@ import Input from "../inputs/Input";
 import useLoginModal from "@/app/hooks/useLoginModal";
 import { signIn } from "next-auth/react";
 import { redirect } from "next/dist/server/api-utils";
+import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
 const LoginModal = () => {
+    const router=useRouter();
     const registerModal=useRegisterModal();
     const loginModal=useLoginModal();
     const [isLoading,setIsLoading]=useState(false);
@@ -31,9 +34,23 @@ const LoginModal = () => {
     });
     const onSubmit: SubmitHandler<FieldValues>=(data)=>{
         setIsLoading(true);
+        signIn('credentials',{
+            ...data,
+            redirect: false,
+        })
+        .then((callback)=>{
+            setIsLoading(false);
+            if(callback?.ok){
+                toast.success('Logged in');
+                router.refresh();
+                loginModal.onClose();
+            }
+            if(callback?.error){
+                toast.error(callback.error);
+
+            }
+        })
         console.log(data);
-        
-        
     }
     const bodyContent=(
         <div className="flex flex-col gap-4">

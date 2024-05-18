@@ -17,34 +17,21 @@ const RegisterModal = () => {
         defaultValues: {
             name: '',
             email: '',
-            hashedpassword: '',
-            confirmPassword:''
+            hashedpassword: ''
         },
     });
 
     const onSubmit: SubmitHandler<FieldValues> = async (data) => {
         setIsLoading(true);
-        if(data.hashedPassword===data.confirmPassword){
-            const payload={
-                name:data.name,
-                email:data.email,
-                hashedpassword:data.hashedPassword
-            }
-            console.log(payload)
-            try {
-                await axios.post('/api/register', payload);
-                console.log("Registration successful");
-                registerModal.onClose();
-            } catch (error) {
-                console.error("Registration error: ", error);
-                // Display error message to the user
-                alert("An error occurred while registering. Please try again.");
-            } finally {
-                setIsLoading(false);
-            }
-        }
-        else{
-            console.log("please confirm your password")
+        try {
+            await axios.post('/api/register', data);
+            console.log("Registration successful");
+            registerModal.onClose();
+        } catch (error) {
+            console.error("Registration error: ", error);
+            // Display error message to the user
+            alert("An error occurred while registering. Please try again.");
+        } finally {
             setIsLoading(false);
         }
     };
@@ -72,18 +59,9 @@ const RegisterModal = () => {
                 required
             />
             <Input
-                id="hashedPassword"
+                id="hashedpassword"
                 type="password"
                 label="Password"
-                disabled={isLoading}
-                register={register}
-                errors={errors}
-                required
-            />
-            <Input
-                id="confirmPassword"
-                type="password"
-                label="Confirm Password"
                 disabled={isLoading}
                 register={register}
                 errors={errors}
