@@ -6,11 +6,13 @@ import { useCallback, useState } from "react";
 import MenuItem from "./MenuItem";
 import useRegisterModal from "@/app/hooks/useRegisterModal";
 import useLoginModal from "@/app/hooks/useLoginModal";
+import useRentModal from "@/app/hooks/useRentModal copy";
 
 const UserMenu=()=>{
     const [isOpen,setIsOpen]=useState(false);
     const registerModal=useRegisterModal();
     const loginModal=useLoginModal();
+    const rentModal=useRentModal();
     const toggleOpen=useCallback(()=>{
         setIsOpen((value)=> !value);
     },[])
