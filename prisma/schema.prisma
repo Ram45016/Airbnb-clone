@@ -13,10 +13,10 @@ datasource db {
 model User {
   id          String      @id @default(uuid())
   email       String      @unique
-  hashedpassword    String
+  hashedPassword    String
   name        String?
   createdAt   DateTime    @default(now())
-  updatedAt   DateTime    @updatedAt
+  updatedAt   DateTime?    @updatedAt
 
   hostedListings Listing[] @relation("host")
   bookings       Booking[] @relation("booker")
@@ -35,7 +35,7 @@ model Listing {
   updatedAt    DateTime    @updatedAt
 
   host      User      @relation("host", fields: [hostId], references: [id])
-  hostId    String    // Updated to String type to match User id
+  hostId    String    
   bookings  Booking[]
 }
 
@@ -49,7 +49,7 @@ model Booking {
   updatedAt     DateTime  @updatedAt
 
   booker     User      @relation("booker", fields: [bookerId], references: [id])
-  bookerId   String    // Updated to String type to match User id
+  bookerId   String    
   listing    Listing   @relation(fields: [listingId], references: [id])
-  listingId  String    // Updated to String type to match Listing id
+  listingId  String    
 }

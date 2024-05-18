@@ -11,6 +11,8 @@ import Modal from "./Modal";
 import Heading from "../Heading";
 import Input from "../inputs/Input";
 import useLoginModal from "@/app/hooks/useLoginModal";
+import { signIn } from "next-auth/react";
+import { redirect } from "next/dist/server/api-utils";
 const LoginModal = () => {
     const registerModal=useRegisterModal();
     const loginModal=useLoginModal();
@@ -23,23 +25,15 @@ const LoginModal = () => {
         }
     } =useForm<FieldValues>({
         defaultValues:{
-            name:'',
             email:'',
-            password:''
+            hashedPassword:''
         },
     });
     const onSubmit: SubmitHandler<FieldValues>=(data)=>{
         setIsLoading(true);
-        axios.post('/api/register',data)
-            .then(()=>{
-                loginModal.onClose();
-            })
-            .catch((error)=>{
-                console.log(error);
-            })
-            .finally(()=>{
-                setIsLoading(false);
-            })
+        console.log(data);
+        
+        
     }
     const bodyContent=(
         <div className="flex flex-col gap-4">
@@ -56,7 +50,7 @@ const LoginModal = () => {
                 required
             />
             <Input
-                id="password"
+                id="hashedPassword"
                 type="password"
                 label="Password"
                 disabled={isLoading}
@@ -71,7 +65,7 @@ const LoginModal = () => {
             disabled={isLoading}
             isOpen={loginModal.isOpen}
             title="Login"
-            actionLabel="Continue"
+            actionLabel="Login"
             onClose={loginModal.onClose}
             onSubmit={handleSubmit(onSubmit)}
             body={bodyContent}
