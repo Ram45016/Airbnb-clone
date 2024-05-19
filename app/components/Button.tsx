@@ -38,8 +38,7 @@ const Button: React.FC<ButtonProps> = ({
                 flex
                 items-center
                 justify-center
-                gap-2
-                py-2
+                ${small ? 'px-3 py-1' : 'px-4 py-2'}
             `}
         >
             {Icon && (
