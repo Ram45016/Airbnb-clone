@@ -25,6 +25,13 @@ const UserMenu: React.FC<UserMenuProps> = ({
     const toggleOpen = useCallback(() => {
         setIsOpen((value) => !value);
     }, []);
+
+    const onRent = useCallback(() => {
+        if (!currentUser) {
+            return loginModal.onOpen(); 
+        }
+        rentModal.onOpen();
+    }, [currentUser, loginModal, rentModal]);
     
     const handleMenuItemClick = (callback: () => void) => {
         setIsOpen(false);
@@ -35,7 +42,7 @@ const UserMenu: React.FC<UserMenuProps> = ({
         <div className="relative">
             <div className="flex flex-row items-center gap-3">
                 <div 
-                    onClick={() => {}}
+                    onClick={onRent}
                     className="
                         hidden
                         md:block

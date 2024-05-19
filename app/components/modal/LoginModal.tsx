@@ -33,10 +33,10 @@ const LoginModal = () => {
             hashedPassword:''
         },
     });
-    const handleCreateAccountClick = () => {
+    const handleCreateAccountClick = useCallback(() => {
         loginModal.onClose();
         registerModal.onOpen();
-    }
+    },[registerModal,loginModal]);
     const onSubmit: SubmitHandler<FieldValues>=(data)=>{
         console.log(data);
         const payload={

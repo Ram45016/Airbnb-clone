@@ -1,6 +1,6 @@
 'use client'
 import axios from "axios";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 import useRegisterModal from "@/app/hooks/useRegisterModal";
 import Modal from "./Modal";
@@ -20,7 +20,7 @@ const RegisterModal = () => {
         register,
         handleSubmit,
         formState: { errors },
-        watch // Extracting watch function
+        watch
     } = useForm<FieldValues>({
         defaultValues: {
             name: '',
@@ -44,10 +44,10 @@ const RegisterModal = () => {
         const password = watch('hashedpassword'); // Using watch function correctly
         return password === confirmPassword || 'Passwords do not match';
     };
-    const handleSigninOnclick = () => {
-        loginModal.onOpen();
+    const handleSigninOnclick = useCallback(() => {
+        loginModal.onOpen(); 
         registerModal.onClose();
-    }
+    },[registerModal,loginModal]);
 
     const onSubmit: SubmitHandler<FieldValues> = async (data) => {
         setIsLoading(true);
