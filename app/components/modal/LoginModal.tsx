@@ -33,14 +33,21 @@ const LoginModal = () => {
         },
     });
     const onSubmit: SubmitHandler<FieldValues>=(data)=>{
+        console.log(data);
+        const payload={
+            Email: data.email,
+            Password: data.hashedPassword
+        }
+        console.log(payload);
         setIsLoading(true);
         signIn('credentials',{
-            ...data,
+            ...payload,
             redirect: false,
         })
         .then((callback)=>{
             setIsLoading(false);
             if(callback?.ok){
+                console.log('Logged in');
                 toast.success('Logged in');
                 router.refresh();
                 loginModal.onClose();
@@ -49,7 +56,6 @@ const LoginModal = () => {
                 toast.error(callback.error);
             }
         })
-        console.log(data);
     }
     const bodyContent=(
         <div className="flex flex-col gap-4">
