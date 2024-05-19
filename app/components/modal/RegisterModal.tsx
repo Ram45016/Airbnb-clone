@@ -1,46 +1,54 @@
-'use client';
-
+'use client'
 import axios from "axios";
-import { AiFillGithub } from "react-icons/ai";
-import { FcGoogle } from "react-icons/fc";
-import { useCallback, useState } from "react";
+import { useState } from "react";
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 import useRegisterModal from "@/app/hooks/useRegisterModal";
 import Modal from "./Modal";
 import Heading from "../Heading";
 import Input from "../inputs/Input";
-import { error } from "console";
 
 const RegisterModal = () => {
     const registerModal = useRegisterModal();
     const [isLoading, setIsLoading] = useState(false);
-    const { register, handleSubmit, formState: { errors } } = useForm<FieldValues>({
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+        watch // Extracting watch function
+    } = useForm<FieldValues>({
         defaultValues: {
             name: '',
             email: '',
-            hashedpassword: ''
+            hashedpassword: '',
+            confirmPassword:''
         },
     });
-    const validateEmail=(email:string)=>{
+
+    const validateEmail = (email: string) => {
         const pattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-        if(!email)
-            return 'Please enter your email';
-        return pattern.test(email ) || 'Invalid email format';
-    }
-    const validatePassword = (password:string) => {
+        return pattern.test(email) || 'Invalid email format';
+    };
+
+    const validatePassword = (password: string) => {
         const pattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-        if (!password) return 'Please enter your password';
         return pattern.test(password) || 'Password must be at least 8 characters long and include uppercase, lowercase, number, and special character';
-    }
+    };
+    
+    const validateConfirmPassword = (confirmPassword: string) => {
+        const password = watch('hashedpassword'); // Using watch function correctly
+        return password === confirmPassword || 'Passwords do not match';
+    };
 
     const onSubmit: SubmitHandler<FieldValues> = async (data) => {
         setIsLoading(true);
-        if(data.hashedpassword===data.confirmPassword){
-            alert('Password doesn;t match');
-        }
-        console.log(data);
+        const payload = {
+            name: data.name,
+            email: data.email,
+            hashedpassword: data.hashedpassword
+        };
+        console.log(payload);
         try {
-            await axios.post('/api/register', data);
+            await axios.post('/api/register', payload);
             console.log("Registration successful");
             registerModal.onClose();
         } catch (error) {
@@ -93,7 +101,7 @@ const RegisterModal = () => {
                 register={register}
                 errors={errors}
                 required
-                validate={validatePassword}
+                validate={validateConfirmPassword}
             />
         </div>
     );
