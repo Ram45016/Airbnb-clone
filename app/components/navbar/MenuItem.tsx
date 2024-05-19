@@ -1,10 +1,10 @@
 interface MenuItemProps{
     onClick:()=>void;
-    lable:string;
+    label:string;
 }
 const MenuItem: React.FC<MenuItemProps> = ({
     onClick,
-    lable
+    label
 }) => {
     return (
         <div
@@ -17,7 +17,7 @@ const MenuItem: React.FC<MenuItemProps> = ({
                 font-semibold
             "
         >
-            {lable}
+            {label}
         </div>  
     );
 }

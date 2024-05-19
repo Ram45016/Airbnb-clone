@@ -7,20 +7,35 @@ import MenuItem from "./MenuItem";
 import useRegisterModal from "@/app/hooks/useRegisterModal";
 import useLoginModal from "@/app/hooks/useLoginModal";
 import useRentModal from "@/app/hooks/useRentModal copy";
+import { signOut } from "next-auth/react";
+import { SafeUser } from "@/app/types";
 
-const UserMenu=()=>{
-    const [isOpen,setIsOpen]=useState(false);
-    const registerModal=useRegisterModal();
-    const loginModal=useLoginModal();
-    const rentModal=useRentModal();
-    const toggleOpen=useCallback(()=>{
-        setIsOpen((value)=> !value);
-    },[])
-    return(
+interface UserMenuProps {
+    currentUser?: SafeUser | null
+}
+
+const UserMenu: React.FC<UserMenuProps> = ({
+    currentUser
+}) => {
+    const [isOpen, setIsOpen] = useState(false);
+    const registerModal = useRegisterModal();
+    const loginModal = useLoginModal();
+    const rentModal = useRentModal();
+    
+    const toggleOpen = useCallback(() => {
+        setIsOpen((value) => !value);
+    }, []);
+    
+    const handleMenuItemClick = (callback: () => void) => {
+        setIsOpen(false);
+        callback();
+    };
+    
+    return (
         <div className="relative">
-            <div className="flex flex-roe items-center gap-3">
+            <div className="flex flex-row items-center gap-3">
                 <div 
-                    onClick={()=>{}}
+                    onClick={() => {}}
                     className="
                         hidden
                         md:block
@@ -43,7 +58,7 @@ const UserMenu=()=>{
                         md:py-1
                         md:px-2
                         border-[1px]
-                        border-neutral--200
+                        border-neutral-200
                         flex
                         flex-row
                         items-center
@@ -56,11 +71,11 @@ const UserMenu=()=>{
                 >
                     <AiOutlineMenu/>
                     <div className="hidden md:block">
-                        <Avatar/>
+                        <Avatar src={currentUser?.image}/>
                     </div>
                 </div>
             </div>
-            {isOpen &&(
+            {isOpen && (
                 <div
                     className="
                         absolute
@@ -75,20 +90,36 @@ const UserMenu=()=>{
                         text-sm
                     "
                 >
-                <div className="flex flex-col cursor-pointer">
-                    <>
-                        <MenuItem 
-                            onClick={loginModal.onOpen} 
-                            lable="Login"
-                        />
-                        <MenuItem 
-                            onClick={registerModal.onOpen} 
-                            lable="SignUp"
-                        />
-                    </>
+                    <div className="flex flex-col cursor-pointer">
+                        {currentUser ? (
+                            <>
+                                <MenuItem 
+                                    onClick={() => handleMenuItemClick(() => {})} 
+                                    label="Profile"
+                                />
+                                <MenuItem 
+                                    onClick={() => handleMenuItemClick(() => {})} 
+                                    label="Reservation"
+                                />
+                                <MenuItem 
+                                    onClick={() => handleMenuItemClick(signOut)} 
+                                    label="Logout"
+                                />
+                            </>
+                        ) : (
+                            <>
+                                <MenuItem 
+                                    onClick={() => handleMenuItemClick(loginModal.onOpen)} 
+                                    label="Login"
+                                />
+                                <MenuItem 
+                                    onClick={() => handleMenuItemClick(registerModal.onOpen)} 
+                                    label="SignUp"
+                                />
+                            </>
+                        )}
+                    </div>
                 </div>
-                </div>
-
             )}
         </div>
     );

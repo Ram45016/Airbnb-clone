@@ -15,6 +15,7 @@ import { signIn } from "next-auth/react";
 import { redirect } from "next/dist/server/api-utils";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
+import Button from "../Button";
 const LoginModal = () => {
     const router=useRouter();
     const registerModal=useRegisterModal();
@@ -32,6 +33,10 @@ const LoginModal = () => {
             hashedPassword:''
         },
     });
+    const handleCreateAccountClick = () => {
+        loginModal.onClose();
+        registerModal.onOpen();
+    }
     const onSubmit: SubmitHandler<FieldValues>=(data)=>{
         console.log(data);
         const payload={
@@ -82,6 +87,54 @@ const LoginModal = () => {
             />
         </div>
     )
+    const footerContent=(
+        <div className="
+            flex
+            flex-col
+            gap-4
+            mt-3
+        ">
+            <hr/>
+            <Button
+                outline
+                label="Continue with Google"
+                icon={FcGoogle}
+                onClick={() => signIn('google')}
+            />
+            <Button
+                outline
+                label="Continue with Github"
+                icon={AiFillGithub}
+                onClick={() => signIn('github')}
+            />
+            <div
+                className="
+                    text-neutral-500
+                    text-center
+                    mt-4
+                    font-light
+                "
+            >
+                <div className="justify-center flex flex-row items-center gap-2">
+                    <div>
+                        First time using Airbnb?
+                    </div>
+                    <div
+                        onClick={handleCreateAccountClick}
+                        className="
+                            text-neutral-800
+                            cursor-pointer
+                            hover:underline
+                        "
+                    >
+                        <div>
+                            Create an account
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    )
     return (
         <Modal
             disabled={isLoading}
@@ -91,6 +144,7 @@ const LoginModal = () => {
             onClose={loginModal.onClose}
             onSubmit={handleSubmit(onSubmit)}
             body={bodyContent}
+            footer={footerContent}
             />
     );
 }

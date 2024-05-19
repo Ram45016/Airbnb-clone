@@ -6,47 +6,31 @@ import RegisterModal from "./components/modal/RegisterModal";
 import LoginModal from "./components/modal/LoginModal";
 import RentModal from "./components/modal/RentModal";
 import ListingComponent from "./components/listings/ListingComponent";
+import getCurrentUser from "./actions/getCurrentUser";
+import ToasterProviders from "./providers/ToasterProviders";
 
 export const metadata = {
   title: "Airbnb",
   description: "Airbnb clone",
 };
-const hotelListings = [
-  {
-    id: 1,
-    image: 'https://via.placeholder.com/150',
-    title: 'Hotel One',
-    description: 'A nice place to stay.',
-    price: '$100/night',
-  },
-  {
-    id: 2,
-    image: 'https://via.placeholder.com/150',
-    title: 'Hotel Two',
-    description: 'Another great place to stay.',
-    price: '$150/night',
-  },
-  // Add more listings as needed
-];
-
 const font = Nunito({ subsets: ["latin"] });
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-
+    const currentUser= await getCurrentUser();
   return (
     <html lang="en">
       <body className={font.className}>
         <RentModal/>
+        <ToasterProviders/>
         <LoginModal/>
         <RegisterModal/>
-        <Navbar />
+        <Navbar currentUser={currentUser}/>
         {children}
-        <ListingComponent listings={hotelListings} category="Hotels"/>
-      </body>
+        </body>
     </html>
   );
 }
