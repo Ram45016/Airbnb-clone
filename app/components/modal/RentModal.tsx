@@ -17,6 +17,7 @@ import ImageUpload from "../inputs/ImageUpload";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
+import getCurrentUser from "@/app/actions/getCurrentUser";
 
 enum STEPS {
     CATEGORY = 0,
@@ -73,8 +74,9 @@ const RentModal = () => {
     const onNext = () => {
         setStep((value) => value + 1);
     };
+    
 
-    const onSubmit: SubmitHandler<FieldValues> = (data) => {
+    const onSubmit: SubmitHandler<FieldValues> = async (data) => {
         if (step !== STEPS.PRICE) {
             return onNext();
         }

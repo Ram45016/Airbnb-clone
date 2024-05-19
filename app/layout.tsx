@@ -5,7 +5,6 @@ import Modal from "./components/modal/Modal";
 import RegisterModal from "./components/modal/RegisterModal";
 import LoginModal from "./components/modal/LoginModal";
 import RentModal from "./components/modal/RentModal";
-import ListingComponent from "./components/listings/ListingComponent";
 import getCurrentUser from "./actions/getCurrentUser";
 import ToasterProviders from "./providers/ToasterProviders";
 
@@ -21,6 +20,7 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
     const currentUser= await getCurrentUser();
+    
   return (
     <html lang="en">
       <body className={font.className}>
