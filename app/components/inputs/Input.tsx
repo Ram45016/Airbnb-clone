@@ -7,10 +7,11 @@ interface InputProps{
     type?:string;
     disabled?: boolean;
     formatPrice?: boolean;
-    required?: boolean;
+    required?:boolean;
     isValid?:boolean;
     register: UseFormRegister<FieldValues>,
-    errors: FieldErrors
+    errors: FieldErrors,
+    validate?: (value: string) => boolean | string;
 }
 const Input: React.FC<InputProps> = ({
     id,
@@ -21,7 +22,8 @@ const Input: React.FC<InputProps> = ({
     register,
     required,
     isValid,
-    errors
+    errors,
+    validate
 }) => {
     return ( 
         <div className="w-full relative">
@@ -39,7 +41,7 @@ const Input: React.FC<InputProps> = ({
             <input
                 id={id}
                 disabled={disabled}
-                {...register(id,{required})}
+                {...register(id,{required, validate})}
                 placeholder=" "
                 type={type}
                 className={`
@@ -80,6 +82,14 @@ const Input: React.FC<InputProps> = ({
             >
                 {label}
             </label>
+            {required && errors[id]?.type === 'required' && (
+                <span className="text-rose-500 text-sm">This field is required</span>
+            )}
+            {errors[id] && errors[id]?.type !== 'required' && (
+                <span className="text-rose-500 text-sm">
+                    {errors[id]?.message as string}
+                </span>
+            )}
         </div> 
     );
 }
