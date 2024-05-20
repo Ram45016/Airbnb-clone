@@ -6,7 +6,8 @@ export default async function getListings() {
             orderBy: {
                 createdAt: 'desc',
             },
-        })
+        });
+        return listings
     } catch (error: any) {
         throw new Error(error);
     }
