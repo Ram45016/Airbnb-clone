@@ -34,17 +34,15 @@ export default async function Home() {
           gap-8
           "
         >
-          {listings.map((listing:any)=>{
+          {listings.map((listing)=>{
             return(
-              <div>
-                <ListingCard
-                key={listing.id}
-                data={listing}
-                currentUser={currentUser}
-              / >
-                </div>
-            )
-          })}
+                  <ListingCard
+                    key={listing.id}
+                    data={listing}
+                    currentUser={currentUser}
+                  />
+            )}
+          )}
         </div>
         </Container>
       </ClientOnly>
