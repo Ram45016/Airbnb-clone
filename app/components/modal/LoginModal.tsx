@@ -26,7 +26,7 @@ const LoginModal = () => {
         handleSubmit,
         formState:{
             errors,
-        }
+        },reset,
     } =useForm<FieldValues>({
         defaultValues:{
             email:'',
@@ -144,13 +144,17 @@ const LoginModal = () => {
             </div>
         </div>
     )
+    const handleClose = useCallback(() => {
+        reset(); // Clear the form data
+        loginModal.onClose();
+    }, [reset, loginModal]);
     return (
         <Modal
             disabled={isLoading}
             isOpen={loginModal.isOpen}
             title="Login"
             actionLabel="Login"
-            onClose={loginModal.onClose}
+            onClose={handleClose}
             onSubmit={handleSubmit(onSubmit)}
             body={bodyContent}
             footer={footerContent}
