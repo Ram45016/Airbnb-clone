@@ -15,27 +15,55 @@ export const categories = [
     {
         label: 'Windmills',
         icon: 'GiWindmill',
-        description: 'This property is close to the beach!'
+        description: 'Experience the charm of windmills nearby!'
     },
     {
         label: 'Modern',
         icon: 'MdOutlineVilla',
-        description: 'This property is close to the beach!'
+        description: 'Enjoy a stay in a modern villa!'
     },
     {
         label: 'Countryside',
-        icon: 'TbBeach',
-        description: 'This property is close to the beach!'
+        icon: 'TbMountain',
+        description: 'Escape to the peaceful countryside!'
     },
     {
         label: 'Pools',
-        icon: 'TbBeach',
-        description: 'This property is close to the beach!'
+        icon: 'MdPool',
+        description: 'Relax with a poolside view!'
     },
+    {
+        label: 'Skiing',
+        icon: 'FaSkiing',
+        description: 'Perfect spot for skiing enthusiasts!'
+    },
+    {
+        label: 'Historical',
+        icon: 'FaLandmark',
+        description: 'Stay in a property with historical significance!'
+    },
+    {
+        label: 'City',
+        icon: 'FaCity',
+        description: 'Explore the vibrant city life!'
+    },
+    {
+        label: 'Camping',
+        icon: 'FaCampground',
+        description: 'Enjoy a unique camping experience!'
+    },
+    {
+        label: 'Desert',
+        icon: 'GiCactus',
+        description: 'Experience the beauty of the desert!'
+    }
 ];
 
 const Categories = () => {
     const params = useSearchParams();
+    if(!params){
+        return null;
+    }
     const selectedCategory = params.get('category');
 
     return (

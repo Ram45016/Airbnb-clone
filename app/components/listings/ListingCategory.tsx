@@ -1,10 +1,11 @@
 'use client';
 
 import { IconType } from "react-icons";
-import { GiWindmill } from "react-icons/gi";
+import { FaSkiing, FaLandmark, FaCity, FaCampground } from "react-icons/fa";
+import { GiCactus, GiWindmill } from "react-icons/gi";
 import { IoMdClose } from "react-icons/io";
-import { MdOutlineVilla } from "react-icons/md";
-import { TbBeach } from "react-icons/tb";
+import { MdOutlineVilla, MdPool } from "react-icons/md";
+import { TbBeach, TbMountain } from "react-icons/tb";
 
 interface ListingCategoryProps {
     icon: string;
@@ -13,9 +14,15 @@ interface ListingCategoryProps {
 }
 const iconMap: { [key: string]: IconType } = {
     TbBeach: TbBeach,
-    MdOutlineVilla: MdOutlineVilla,
     GiWindmill: GiWindmill,
-    IoMdClose: IoMdClose,
+    MdOutlineVilla: MdOutlineVilla,
+    TbMountain: TbMountain,
+    MdPool: MdPool,
+    FaSkiing: FaSkiing,
+    FaLandmark: FaLandmark,
+    FaCity: FaCity,
+    FaCampground: FaCampground,
+    GiCactus: GiCactus
 };
 
 const ListingCategory: React.FC<ListingCategoryProps> = ({

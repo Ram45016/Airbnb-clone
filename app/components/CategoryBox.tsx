@@ -3,10 +3,11 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useCallback } from "react";
 import { IconType } from "react-icons";
 import qs from "query-string";
-import { GiWindmill } from "react-icons/gi";
+import { GiCactus, GiWindmill } from "react-icons/gi";
 import { IoMdClose } from "react-icons/io";
-import { MdOutlineVilla } from "react-icons/md";
-import { TbBeach } from "react-icons/tb";
+import { MdOutlineVilla, MdPool } from "react-icons/md";
+import { TbBeach, TbMountain } from "react-icons/tb";
+import { FaSkiing, FaLandmark, FaCity, FaCampground } from "react-icons/fa";
 
 interface CategoryBoxProps {
     icon: string;
@@ -16,9 +17,15 @@ interface CategoryBoxProps {
 
 const iconMap: { [key: string]: IconType } = {
     TbBeach: TbBeach,
-    MdOutlineVilla: MdOutlineVilla,
     GiWindmill: GiWindmill,
-    IoMdClose: IoMdClose,
+    MdOutlineVilla: MdOutlineVilla,
+    TbMountain: TbMountain,
+    MdPool: MdPool,
+    FaSkiing: FaSkiing,
+    FaLandmark: FaLandmark,
+    FaCity: FaCity,
+    FaCampground: FaCampground,
+    GiCactus: GiCactus
 };
 
 const CategoryBox: React.FC<CategoryBoxProps> = ({
@@ -64,6 +71,7 @@ const CategoryBox: React.FC<CategoryBoxProps> = ({
                 transition
                 cursor-pointer
                 ${selected ? 'border-b-neutral-800' : 'border-transparent'}
+                ${selected ? 'text-neutral-800' : 'text-neutral-500'}
             `}
         >
             <Icon size={26} />

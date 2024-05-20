@@ -1,4 +1,4 @@
-import { Children } from "react";
+'use client';
 
 interface ContainerProps{
     children: React.ReactNode;
@@ -10,7 +10,7 @@ const Container:React.FC<ContainerProps> =({
     return(
         <div 
         className="
-            max-w-screen
+            max-w-[2520px]
             mx-auto 
             xl:px-20 
             md:px-10 
