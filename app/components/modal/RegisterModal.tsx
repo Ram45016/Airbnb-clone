@@ -56,7 +56,6 @@ const RegisterModal = () => {
             email: data.email,
             hashedpassword: data.hashedpassword
         };
-        console.log(payload);
         try {
             await axios.post('/api/register', payload);
             console.log("Registration successful");

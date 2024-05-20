@@ -38,12 +38,10 @@ const LoginModal = () => {
         registerModal.onOpen();
     },[registerModal,loginModal]);
     const onSubmit: SubmitHandler<FieldValues>=(data)=>{
-        console.log(data);
         const payload={
             Email: data.email,
             Password: data.hashedPassword
         }
-        console.log(payload);
         setIsLoading(true);
         signIn('credentials',{
             ...payload,
