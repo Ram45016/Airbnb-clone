@@ -60,6 +60,15 @@ const LoginModal = () => {
             }
         })
     }
+    const validateEmail = (email: string) => {
+        const pattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        return pattern.test(email) || 'Invalid email format';
+    };
+
+    const validatePassword = (password: string) => {
+        const pattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+        return pattern.test(password) || 'Password must be at least 8 characters long and include uppercase, lowercase, number, and special character';
+    };
     const bodyContent=(
         <div className="flex flex-col gap-4">
             <Heading
@@ -72,6 +81,7 @@ const LoginModal = () => {
                 disabled={isLoading}
                 register={register}
                 errors={errors}
+                validate={validateEmail}
                 required
             />
             <Input
@@ -81,6 +91,7 @@ const LoginModal = () => {
                 disabled={isLoading}
                 register={register}
                 errors={errors}
+                validate={validatePassword}
                 required
             />
         </div>
