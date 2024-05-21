@@ -3,7 +3,6 @@ import ClientOnly from "../components/ClientOnly";
 import getCurrentUser from "../actions/getCurrentUser";
 import getReservations from "../actions/getReservations";
 import TripClient from "./TripClient";
-
 const TripsPage = async () => {
     const currentUser = await getCurrentUser();
     if (!currentUser) { 
@@ -23,6 +22,7 @@ const TripsPage = async () => {
         return (
             <ClientOnly>
                 <EmptyState
+                    imageUrl="/images/trip.png"
                     title="No trips found"
                     subtitle="Looks like you haven't reserved any trips."
                 />

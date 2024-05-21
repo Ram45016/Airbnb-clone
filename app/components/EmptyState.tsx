@@ -1,20 +1,24 @@
 'use client';
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 import Heading from "./Heading";
 import Button from "./Button";
 
-interface EmptyState{
+interface EmptyState {
     title?: string;
     subtitle?: string;
     showReset?: boolean;
+    imageUrl?: string;
 }
-const EmptyState:React.FC<EmptyState> = ({
+
+const EmptyState: React.FC<EmptyState> = ({
     title = "No exact matches",
     subtitle = "Try changing or removing some of your filters",
-    showReset
+    showReset,
+    imageUrl
 }) => {
-    const router=useRouter();
-    return ( 
+    const router = useRouter();
+    return (
         <div
             className="
                 h-[60vh]
@@ -25,6 +29,16 @@ const EmptyState:React.FC<EmptyState> = ({
                 items-center
             "
         >
+            {imageUrl && (
+                <div className="relative w-64 h-64">
+                    <Image
+                        src={imageUrl}
+                        alt="Empty State Image"
+                        layout="fill"
+                        objectFit="contain"
+                    />
+                </div>
+            )}
             <Heading
                 center
                 title={title}
@@ -37,7 +51,8 @@ const EmptyState:React.FC<EmptyState> = ({
                     onClick={() => router.push('/')}
                 />
             )}
-    </div> );
+        </div>
+    );
 }
- 
+
 export default EmptyState;
