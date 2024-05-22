@@ -60,6 +60,7 @@ const RegisterModal = () => {
             await axios.post('/api/register', payload);
             console.log("Registration successful");
             registerModal.onClose();
+            loginModal.onOpen();
         } catch (error) {
             alert(error);
             setIsLoading(false);

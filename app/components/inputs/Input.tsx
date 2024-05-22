@@ -1,22 +1,25 @@
+import { useState } from 'react';
 import { FieldErrors, FieldValues, UseFormRegister } from "react-hook-form";
 import { BiDollar } from "react-icons/bi";
+import { BiShow, BiHide } from "react-icons/bi";
 
-interface InputProps{
+interface InputProps {
     id: string;
     label: string;
-    type?:string;
+    type?: string;
     disabled?: boolean;
     formatPrice?: boolean;
-    required?:boolean;
-    isValid?:boolean;
+    required?: boolean;
+    isValid?: boolean;
     register: UseFormRegister<FieldValues>,
     errors: FieldErrors,
     validate?: (value: string) => boolean | string;
 }
+
 const Input: React.FC<InputProps> = ({
     id,
     label,
-    type="text",
+    type = "text",
     disabled,
     formatPrice,
     register,
@@ -25,10 +28,16 @@ const Input: React.FC<InputProps> = ({
     errors,
     validate
 }) => {
-    return ( 
+    const [showPassword, setShowPassword] = useState(false);
+
+    const togglePasswordVisibility = () => {
+        setShowPassword(prevState => !prevState);
+    };
+
+    return (
         <div className="w-full relative">
-            {formatPrice &&(
-                <BiDollar 
+            {formatPrice && (
+                <BiDollar
                     size={24}
                     className="
                         text-neutral-700
@@ -41,9 +50,9 @@ const Input: React.FC<InputProps> = ({
             <input
                 id={id}
                 disabled={disabled}
-                {...register(id,{required, validate})}
+                {...register(id, { required, validate })}
                 placeholder=" "
-                type={type}
+                type={type === "password" && showPassword ? "text" : type}
                 className={`
                     peer
                     w-full
@@ -57,11 +66,16 @@ const Input: React.FC<InputProps> = ({
                     transition
                     disabled:opacity-70
                     disabled:cursor-not-allowed
-                    ${formatPrice?'pl-9':'pl-4'}
-                    ${errors[id]?'border-rose-500':' border-neutral-300'}
-                    ${isValid? 'border-green-500' : (errors[id] ? 'border-rose-500' : 'border-neutral-300')}  
-                    `}
-                    />
+                    ${formatPrice ? 'pl-9' : 'pl-4'}
+                    ${errors[id] ? 'border-rose-500' : ' border-neutral-300'}
+                    ${isValid ? 'border-green-500' : (errors[id] ? 'border-rose-500' : 'border-neutral-300')}
+                `}
+            />
+            {type === "password" && (
+                <div className="absolute top-5 right-4 cursor-pointer" onClick={togglePasswordVisibility}>
+                    {showPassword ? <BiHide size={24} /> : <BiShow size={24} />}
+                </div>
+            )}
             <label
                 className={`
                 absolute
