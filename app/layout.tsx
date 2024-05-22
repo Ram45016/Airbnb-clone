@@ -9,10 +9,13 @@ import getCurrentUser from "./actions/getCurrentUser";
 import ToasterProviders from "./providers/ToasterProviders";
 import ClientOnly from "./components/ClientOnly";
 import SearchModal from "./components/modal/SearchModal";
+import img from"../public/images/logo.png"
 
 export const metadata = {
+  
   title: "Airbnb",
   description: "Airbnb clone",
+  image:"/images/logo.png",
 };
 const font = Nunito({ subsets: ["latin"] });
 
@@ -25,6 +28,7 @@ export default async function RootLayout({
     
   return (
     <html lang="en">
+       <link rel="icon" href="/images/logo.png" type="image/x-icon" sizes="16x16" />
       <body className={font.className}>
         <ClientOnly>
           <Navbar currentUser={currentUser}/>
