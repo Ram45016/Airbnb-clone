@@ -44,13 +44,16 @@ const EmptyState: React.FC<EmptyState> = ({
                 title={title}
                 subtitle={subtitle}
             />
+            <div>
+
             {showReset && (
                 <Button
-                    outline
-                    label="Remove all filters"
-                    onClick={() => router.push('/')}
+                outline
+                label="Remove all filters"
+                onClick={() => router.push('/')}
                 />
             )}
+            </div>
         </div>
     );
 }
