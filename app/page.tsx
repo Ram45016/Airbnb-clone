@@ -2,13 +2,18 @@ import Image from "next/image";
 import Container from "./components/Container";
 import ClientOnly from "./components/ClientOnly";
 import EmptyState from "./components/EmptyState";
-import getListings from "./actions/getListings";
+import getListings, { IListingsParams } from "./actions/getListings";
 import ListingCard from "./components/listings/ListingCard";
 import getCurrentUser from "./actions/getCurrentUser";
+import Search from "./components/navbar/Search";
+import { SearchParamsContext } from "next/dist/shared/lib/hooks-client-context.shared-runtime";
 
-export default async function Home() {
+interface HomeParams{
+  searchParams:IListingsParams
+}
+const Home=async({searchParams}:HomeParams)=>{
   const isEmpty = true;
-  const listings= await getListings();
+  const listings= await getListings(searchParams);
   const currentUser=await getCurrentUser();
 
   if(listings.length === 0){
@@ -48,3 +53,5 @@ export default async function Home() {
       </ClientOnly>
   );
 }
+
+export default Home;
