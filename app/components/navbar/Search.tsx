@@ -1,10 +1,47 @@
 'use client'
 
+import useCountries from "@/app/hooks/useCountries";
+import useSearchModal from "@/app/hooks/useSearchModal";
+import { useSearchParams } from "next/navigation";
+import { useMemo } from "react";
 import { BiSearch } from "react-icons/bi";
 
 const Search=()=>{
+    const searchModal=useSearchModal();
+    const params=useSearchParams();
+    const locationValue=params?.get('locationValue');
+    const startDateValue=params?.get('startDate');
+    const endDateValue=params?.get('endDate');
+    const guestCountValue=params?.get('guestCount');
+    const {getByValue}=useCountries();
+
+    const locationLabel=useMemo(()=>{
+        if(locationValue){
+            return getByValue(locationValue as string)?.label
+        }
+        return 'Anywhere'
+    },[locationValue,getByValue]);
+
+    const durationLabel=useMemo(()=>{
+        if(startDateValue && endDateValue){
+            const start=new Date(startDateValue as string);
+            const end=new Date(endDateValue as string);
+            let diffTime=Math.abs(end.getTime()-start.getTime());
+            let diffDays=Math.ceil(diffTime/(1000*60*60*24));
+            return `${diffDays} Days`
+        }
+        return 'Any Week'
+    },[startDateValue,endDateValue]);
+
+    const guestLabel=useMemo(()=>{
+        if(guestCountValue){
+            return `${guestCountValue} Guests`
+        }
+        return 'Add Guests'
+    },[guestCountValue]);
     return(
         <div
+            onClick={searchModal.onOpen}
             className="
                 border-[1px]
                 w-full
@@ -32,7 +69,7 @@ const Search=()=>{
                         px-6
                     "
                 >
-                    Anywhere
+                    {locationLabel}
                 </div>
                 <div
                     className="
@@ -46,7 +83,7 @@ const Search=()=>{
                         text-center
                     "
                 >
-                    Any Week
+                    {durationLabel}
                 </div>
                 <div
                     className="
@@ -60,7 +97,7 @@ const Search=()=>{
                         gap-3
                     "
                 >
-                    <div className="hidden sm:block"> Add Guests</div>
+                    <div className="hidden sm:block"> {guestLabel}</div>
                     <div
                         className="
                             p-2
