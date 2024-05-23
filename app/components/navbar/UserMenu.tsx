@@ -10,6 +10,7 @@ import useRentModal from "@/app/hooks/useRentModal";
 import { signOut } from "next-auth/react";
 import { SafeUser } from "@/app/types";
 import { useRouter } from "next/navigation";
+import useImageUploadModal from "@/app/hooks/useImageUploadModal";
 
 interface UserMenuProps {
     currentUser?: SafeUser | null
@@ -19,6 +20,7 @@ const UserMenu: React.FC<UserMenuProps> = ({
     currentUser
 }) => {
     const [isOpen, setIsOpen] = useState(false);
+    const uploadModal=useImageUploadModal();
     const registerModal = useRegisterModal();
     const loginModal = useLoginModal();
     const rentModal = useRentModal();
@@ -117,6 +119,20 @@ const UserMenu: React.FC<UserMenuProps> = ({
                                     onClick={() => router.push("/properties")} 
                                     label="My Properties"
                                 />
+                                
+                                <MenuItem 
+                                    onClick={() =>{rentModal.onOpen()}} 
+                                    label="Airbnb my home"
+                                />
+                                <MenuItem 
+                                    onClick={() => router.push("/profile")} 
+                                    label="Profile"
+                                />
+                                <MenuItem 
+                                    onClick={() => handleMenuItemClick(uploadModal.onOpen)} 
+                                    label="Upload Image"
+                                />
+                                
                                 <MenuItem 
                                     onClick={() => handleMenuItemClick(signOut)} 
                                     label="Logout"

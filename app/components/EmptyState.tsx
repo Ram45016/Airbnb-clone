@@ -29,21 +29,11 @@ const EmptyState: React.FC<EmptyState> = ({
                 items-center
             "
         >
-            {imageUrl && (
-                <div className="relative w-64 h-64">
-                    <Image
-                        src={imageUrl}
-                        alt="Empty State Image"
-                        layout="fill"
-                        objectFit="contain"
-                    />
-                </div>
-            )}
             <Heading
                 center
                 title={title}
                 subtitle={subtitle}
-            />
+                />
             <div>
 
             {showReset && (
@@ -54,6 +44,16 @@ const EmptyState: React.FC<EmptyState> = ({
                 />
             )}
             </div>
+            {imageUrl && (
+                <div className="relative w-64 h-64">
+                    <Image
+                        src={imageUrl}
+                        alt="Empty State Image"
+                        layout="fill"
+                        objectFit="contain"
+                    />
+                </div>
+            )}
         </div>
     );
 }

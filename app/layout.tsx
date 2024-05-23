@@ -10,6 +10,7 @@ import ToasterProviders from "./providers/ToasterProviders";
 import ClientOnly from "./components/ClientOnly";
 import SearchModal from "./components/modal/SearchModal";
 import img from"../public/images/logo.png"
+import UploadModal from "./components/modal/UploadModal";
 
 export const metadata = {
   
@@ -25,7 +26,6 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
     const currentUser= await getCurrentUser();
-    
   return (
     <html lang="en">
        <link rel="icon" href="/images/logo.png" type="image/x-icon" sizes="16x16" />
@@ -34,6 +34,7 @@ export default async function RootLayout({
           <Navbar currentUser={currentUser}/>
           <ToasterProviders/>
           <SearchModal/>
+          <UploadModal/>
           <RentModal/>
           <LoginModal/>
           <RegisterModal/>
