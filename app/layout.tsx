@@ -11,6 +11,7 @@ import ClientOnly from "./components/ClientOnly";
 import SearchModal from "./components/modal/SearchModal";
 import img from"../public/images/logo.png"
 import UploadModal from "./components/modal/UploadModal";
+import VerificationModal from "./components/modal/VerificationModal";
 
 export const metadata = {
   
@@ -33,6 +34,7 @@ export default async function RootLayout({
         <ClientOnly>
           <Navbar currentUser={currentUser}/>
           <ToasterProviders/>
+          <VerificationModal/>
           <SearchModal/>
           <UploadModal/>
           <RentModal/>

@@ -6,4 +6,5 @@ export const config = {
         "/reservations",
         "/favorites",
         "/properties",
+        "/profile",
     ] }

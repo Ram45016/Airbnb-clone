@@ -11,6 +11,7 @@ import { signOut } from "next-auth/react";
 import { SafeUser } from "@/app/types";
 import { useRouter } from "next/navigation";
 import useImageUploadModal from "@/app/hooks/useImageUploadModal";
+import useVerificationModal from "@/app/hooks/useVerificationModal";
 
 interface UserMenuProps {
     currentUser?: SafeUser | null
@@ -23,6 +24,7 @@ const UserMenu: React.FC<UserMenuProps> = ({
     const uploadModal=useImageUploadModal();
     const registerModal = useRegisterModal();
     const loginModal = useLoginModal();
+    const verification=useVerificationModal();
     const rentModal = useRentModal();
     const router=useRouter();
     const toggleOpen = useCallback(() => {
@@ -32,6 +34,9 @@ const UserMenu: React.FC<UserMenuProps> = ({
     const onRent = useCallback(() => {
         if (!currentUser) {
             return loginModal.onOpen(); 
+        }
+        if(!currentUser?.emailVerified){
+            return verification.onOpen();
         }
         rentModal.onOpen();
     }, [currentUser, loginModal, rentModal]);
@@ -128,11 +133,6 @@ const UserMenu: React.FC<UserMenuProps> = ({
                                     onClick={() => router.push("/profile")} 
                                     label="Profile"
                                 />
-                                <MenuItem 
-                                    onClick={() => handleMenuItemClick(uploadModal.onOpen)} 
-                                    label="Upload Image"
-                                />
-                                
                                 <MenuItem 
                                     onClick={() => handleMenuItemClick(signOut)} 
                                     label="Logout"

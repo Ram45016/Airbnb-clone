@@ -5,6 +5,7 @@ import ListingInfo from "@/app/components/listings/ListingInfo";
 import ListingReservation from "@/app/components/listings/ListingReservation";
 import { categories } from "@/app/components/navbar/Categories";
 import useLoginModal from "@/app/hooks/useLoginModal";
+import useVerificationModal from "@/app/hooks/useVerificationModal";
 import { SafeListing, SafeReservation, SafeUser } from "@/app/types";
 import { Reservation } from "@prisma/client";
 import axios from "axios";
@@ -51,10 +52,14 @@ const ListingClient: React.FC<ListingClientProps> = ({
   const [isLoading, setIsLoading] = useState(false);
   const [totalPrice, setTotalPrice] = useState(listing.price);
   const [dateRange, setDateRange] = useState<Range>(initialDateRange);
+  const verification= useVerificationModal();
 
   const onCreateReservation = useCallback(() => {
     if (!currentUser) {
       return loginModal.onOpen();
+    }
+    if(!currentUser?.emailVerified){
+      return verification.onOpen();
     }
     setIsLoading(true);
     axios.post('/api/reservations', {
@@ -133,6 +138,8 @@ const ListingClient: React.FC<ListingClientProps> = ({
                 onSubmit={onCreateReservation}
                 disabled={isLoading}
                 disabledDates={disabledDates}
+                UserId={currentUser?.id}
+                authorId={listing.user.id}
               />
             </div>
           </div>

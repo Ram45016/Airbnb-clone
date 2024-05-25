@@ -1,15 +1,20 @@
-import { Range } from "react-date-range"
-import Button from "../Button"
-import Calendar from "../inputs/Calendar"
-interface ListingReservationProps{
-    price: number
-    totalPrice: number
-    onChangeDate: (value:Range) => void
-    dateRange: Range
-    onSubmit: () => void
-    disabled?: boolean
-    disabledDates: Date[]   
+import React from 'react';
+import { Range } from "react-date-range";
+import Button from "../Button";
+import Calendar from "../inputs/Calendar";
+
+interface ListingReservationProps {
+    price: number;
+    totalPrice: number;
+    onChangeDate: (value: Range) => void;
+    dateRange: Range;
+    onSubmit: () => void;
+    disabled?: boolean;
+    disabledDates: Date[];
+    UserId?: string;
+    authorId?: string;
 }
+
 const ListingReservation: React.FC<ListingReservationProps> = ({
     price,
     totalPrice,
@@ -17,8 +22,12 @@ const ListingReservation: React.FC<ListingReservationProps> = ({
     dateRange,
     onSubmit,
     disabled,
-    disabledDates
+    disabledDates,
+    UserId,
+    authorId
 }) => {
+    const isOwner = UserId === authorId;
+
     return (
         <div 
             className="
@@ -31,19 +40,19 @@ const ListingReservation: React.FC<ListingReservationProps> = ({
         >
             <div className="
                 flex flex-row items-center gap-1 p-4">
-                    <div className="text-2xl font-semibold">$ {price}</div>
-                    <div className="font-light text-neutral-600">night</div>
+                <div className="text-2xl font-semibold">$ {price}</div>
+                <div className="font-light text-neutral-600">night</div>
             </div>
-            <hr/>
+            <hr />
             <Calendar
                 value={dateRange}
                 disabledDates={disabledDates}
                 onChange={(value) => onChangeDate(value.selection)}
             />
-            <hr/>
+            <hr />
             <div className="p-4">
                 <Button
-                    disabled={disabled}
+                    disabled={disabled || isOwner}
                     label="Reserve"
                     onClick={onSubmit}
                 />
@@ -67,7 +76,7 @@ const ListingReservation: React.FC<ListingReservationProps> = ({
                 </div>
             </div>
         </div>
-     );
-}
- 
+    );
+};
+
 export default ListingReservation;
