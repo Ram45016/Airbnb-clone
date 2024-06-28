@@ -1,23 +1,19 @@
-# Use an official Node.js runtime as a parent image
 FROM node:14-alpine
 
-# Set the working directory inside the container
+# Set the working directory
 WORKDIR /app
 
-# Copy package.json and package-lock.json to the working directory
-COPY package.json package-lock.json /app/
+# Copy package.json and package-lock.json
+COPY package.json package-lock.json ./
 
-# Install dependencies using npm
+# Install dependencies
 RUN npm install --production
 
-# Copy the rest of the application code to the working directory
-COPY . /app/
+# Copy the rest of the application code
+COPY . .
+
+# Install Prisma globally
+RUN npm install -g prisma
 
 # Build the Next.js application for production
 RUN npm run build
-
-# Expose the port that the Next.js application runs on
-EXPOSE 3000
-
-# Set the command to run your Next.js application
-CMD ["npm", "start"]
